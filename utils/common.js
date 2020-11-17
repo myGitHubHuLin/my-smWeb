@@ -5,7 +5,7 @@ const install = (Vue, vm) => {
 	const checkLogin = (e = {}) => {
 		if (!vm.isLogin) {
 			uni.navigateTo({
-				url: '/pages/login/login'
+				url: '/pages/user/login/login'
 			})
 			return false
 		}
