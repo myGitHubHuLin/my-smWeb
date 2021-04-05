@@ -8,7 +8,7 @@
 	export default {
 		data() {
 			return {
-				title: '我的'
+				title: '首页'
 			}
 		},
 		onLoad() {

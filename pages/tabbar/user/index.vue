@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		{{title}}
+		个人中心
 	</view>
 </template>
 
@@ -8,7 +8,7 @@
 	export default {
 		data() {
 			return {
-				title: '我的'
+				title: '个人中心'
 			}
 		},
 		onLoad() {
