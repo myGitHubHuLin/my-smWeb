@@ -5,48 +5,140 @@
 				:show-bar="false" :active-item-style="{backgroundColor:'#fff',color: 'red'}" bg-color="#e5e5e5">
 			</u-tabs>
 		</view>
-		<view class="center-header-title">
-			<view class="title-left">
-				<view :class="{'title-select-line' : current === 0}" @click="chooseTitle(0)">一号楼</view>
-				<view :class="{'title-select-line' : current === 1}" @click="chooseTitle(1)">车位</view>
-			</view>
-			<view class="title-right" :class="{'choose-color' : isChoose}" @click="rightChoose(isChoose)">只看未选</view>
-		</view>
-		<view class="center-title-three">
-			<view v-for="(item, index) in unit" :key="index" :class="{'error': chooseUnit === index}"
-				@click="threeChoose(item, index)">
-				{{item.name}}
-			</view>
-		</view>
-		<view class="scroll-contianr">
-			
-			<scroll-view 
-				:scroll-top="scrollTop" 
-				scroll-y="true" 
-				class="scroll-Y" 
-				v-for="(value,key,index) in roomData"
-				:key="index"
-			>
-				<view class="scroll-view-item uni-bg-red" >
-					<view class="scroll-view-item-title">{{key}}</view>
-					<view class="scroll-view-bottom">
-						<view v-for="(childrenVal, childrenKey) in value" 
-							class="scroll-view-item-one"
-							:key="childrenKey"
-							@click="chooseItem(childrenVal)">
-						<view class="scroll-view-item-block">
-								<view v-if="childrenVal.isSale" class="item-sale">已售</view>
-								<view class="grid-text grid-one" :style="{color: childrenVal.isSale ? '#e5e5e5' : '#000'}">{{childrenVal.name}}</view>
-								<view class="grid-text grid-two" :style="{color: childrenVal.isSale ? '#e5e5e5' : '#000'}">{{childrenVal.price}}元/㎡</view>
-								<view class="grid-text grid-two" :style="{color: childrenVal.isSale ? '#e5e5e5' : '#000'}">{{childrenVal.area}}㎡</view>
-							</view>
-					</view>
-					</view>
-					
-					
+		<view v-if="count === 0">
+			<view class="center-header-title">
+				<view class="title-left">
+					<view :class="{'title-select-line' : current === 0}" @click="chooseTitle(0)">一号楼</view>
+					<view :class="{'title-select-line' : current === 1}" @click="chooseTitle(1)">车位</view>
 				</view>
-			</scroll-view>
+				<view class="title-right" :class="{'choose-color' : isChoose}" @click="rightChoose(isChoose)">只看未选
+				</view>
+			</view>
+			<view class="center-title-three">
+				<view v-for="(item, index) in unit" :key="index" :class="{'error': chooseUnit === index}"
+					@click="threeChoose(item, index)">
+					{{item.name}}
+				</view>
+			</view>
+			<view class="scroll-contianr">
+				<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y"
+					v-for="(value,key,index) in roomData" :key="index">
+					<view class="scroll-view-item uni-bg-red">
+						<view class="scroll-view-item-title">{{key}}</view>
+						<view class="scroll-view-bottom">
+							<view v-for="(childrenVal, childrenKey) in value" class="scroll-view-item-one"
+								:key="childrenKey">
+								<view class="scroll-view-item-block" @click="chooseItem(roomData[key],childrenKey)">
+									<view v-if="childrenVal.isSale" class="item-sale">已售</view>
+									<view class="grid-text grid-one"
+										:style="{color: childrenVal.isSale ? '#e5e5e5' : '#000'}">{{childrenVal.name}}
+									</view>
+									<view class="grid-text grid-two"
+										:style="{color: childrenVal.isSale ? '#e5e5e5' : '#000'}">
+										{{childrenVal.price}}元/㎡
+									</view>
+									<view class="grid-text grid-two"
+										:style="{color: childrenVal.isSale ? '#e5e5e5' : '#000'}">{{childrenVal.area}}㎡
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
 		</view>
+		<view v-else class="collection">
+			<!-- 收藏-->
+			<view class="collection-title">
+				<view class="collection-title-left">
+					<view>您已收藏1套房源</view>
+					<view>点击右侧按钮,可拖拽调整已收藏房源的排序顺序,方便您排出选房优先级。</view>
+				</view>
+				<view class="collection-title-right">
+					<!-- 拖拽图标 -->
+				</view>
+			</view>
+			<view class="collection-rwo">
+					<view>
+						<view class="collection-rwo-num">1</view>
+						<view>
+							<view>车位-B1-118</view>
+							<view>9.00万 27㎡ 1次收藏</view>
+						</view>
+						
+					</view>
+					<u-icon name="close" color="#2979ff" size="28"></u-icon>
+			</view>
+			
+		</view>
+		<u-popup v-model="show" mode="bottom" :closeable="true" class="model-main">
+			<view>
+				<view class="model-title">{{`${list[current].name}-${unit[chooseUnit].name}-${modelData.name}`}}
+				</view>
+				<view class="model-one" v-if="current === 0">
+					<view class="model-one-top">
+						<view class="text-left">房源总价：</view>
+						<view>1176717.24元</view>
+					</view>
+					<view class="model-one-bottom">
+						<view>
+							<view class="text-left">房源单价：</view>
+							<view>6920元/㎡</view>
+						</view>
+						<view>
+							<view class="text-left">房源结构：</view>
+							<view>四室两厅两卫</view>
+						</view>
+						<view>
+							<view class="text-left">房源名称：</view>
+							<view>A1户型</view>
+						</view>
+						<view>
+							<view class="text-left">收藏数量：</view>
+							<view>0次</view>
+						</view>
+					</view>
+				</view>
+				<view v-else class="model-one">
+					<view class="model-one-top">
+						<view class="text-left">车位总价：</view>
+						<view>1176717.24元</view>
+					</view>
+					<view class="model-one-bottom">
+						<view>
+							<view class="text-left">车位单价：</view>
+							<view>6920元/㎡</view>
+						</view>
+						<view>
+							<view class="text-left">车位结构：</view>
+							<view>四室两厅两卫</view>
+						</view>
+						<view>
+							<view class="text-left">车位名称：</view>
+							<view>A1户型</view>
+						</view>
+						<view>
+							<view class="text-left">收藏数量：</view>
+							<view>0次</view>
+						</view>
+					</view>
+				</view>
+				<view class="model-two" v-if="current === 0">
+					<view class="text-left">房源备注:</view>
+					<view class="text-right">3号楼一单元1101室为东户3号楼一单元1101室为东户3号楼一单元1101室为东户</view>
+				</view>
+			</view>
+			<view class="mode-bottom">
+				<view class="mode-bottom-left">
+					<u-icon name="heart" :label-size="30"></u-icon>
+					<view>收藏</view>
+				</view>
+				<view class="mode-bottom-right">
+					<view>立即抢{{current === 0 ? '房' : '车位'}}</view>
+					<view>{{`结束倒计时：${56}天${08}时`}}</view>
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -55,7 +147,7 @@
 		data() {
 			return {
 				title: '选房',
-				count: 0, // 头部选择的下表
+				count: 0, // 头部选择的下表:全部房源、我的收藏
 				list: [{
 					name: '一号楼'
 				}, {
@@ -92,23 +184,25 @@
 					// 	},
 					// ],
 				},
-				scrollTop:0,
+				scrollTop: 0,
+				show: false, // 下边的model
+				modelData: {}, // 打开model的数据
 			}
 		},
-		mounted() {
+		created() {
 			let myData = {};
-			for(let j=0;j<5;j++){
+			for (let j = 0; j < 5; j++) {
 				myData[`${j+1}层`] = [];
-				for(let i=0;i<15;i++){
-				myData[`${j+1}层`].push(
-				{name: `${j + 1}0${i+1}`,
-							isSale: i%2 ==0, // 是否已售
-							price: 9000, // 单价
-							area: 66, // 面积大小
-							})
+				for (let i = 0; i < 15; i++) {
+					myData[`${j+1}层`].push({
+						name: `${j + 1}0${i+1}`,
+						isSale: i % 2 == 0, // 是否已售
+						price: 9000, // 单价
+						area: 66, // 面积大小
+					})
+				}
 			}
-			}
-			this.roomData= myData;
+			this.roomData = myData;
 		},
 		methods: {
 			chooseTitle(i) { // 房号、车位切换
@@ -131,8 +225,13 @@
 			threeChoose(item, i) { // 单元切换
 				this.chooseUnit = i;
 			},
-			chooseItem(val){ // 点击块--选择
-				console.log(val)
+			chooseItem(val, i) { // 点击块--选择
+				const value = val[i];
+				if (!value.isSale) { // 没有销售--打开model
+					this.show = true;
+					this.modelData = value;
+				}
+				console.log(value)
 			},
 		}
 	}
@@ -211,63 +310,225 @@
 			}
 
 		}
-		.scroll-contianr{ // 滚动区域的样式
+
+		.scroll-contianr {
+			// 滚动区域的样式
 			width: 100%;
 			height: calc(100% - 100rpx);
 			padding: 0 30rpx;
 			margin-bottom: 250rpx;
-			.scroll-Y{
-				.scroll-view-item{
-					.scroll-view-item-title{
+
+			.scroll-Y {
+				.scroll-view-item {
+					.scroll-view-item-title {
 						font-size: 30rpx;
 						margin-top: 30rpx;
 					}
-					.scroll-view-bottom{
+
+					.scroll-view-bottom {
 						display: flex;
 						flex-wrap: wrap;
-						.scroll-view-item-one{
+
+						.scroll-view-item-one {
 							margin-right: 30rpx;
 							margin-top: 10rpx;
-						.scroll-view-item-block{
-						width: 200rpx;
-						height: 180rpx;
-						background-color: #fff;
-						border-radius: 10rpx;
-						border: 1rpx solid #e5e5e5;
-						position: relative;
-						overflow: hidden;
-						.grid-text{
-							display: flex;
-							justify-content: center;
-						}
-						.grid-one{
-							font-size: 45rpx;
-							color: #000;
-							margin-top: 8rpx;
-						}
-						.grid-two{
-							font-size: 30rpx;
-							margin-top: 8rpx;
-						}
-						.item-sale{
-							position: absolute;
-							left: -45rpx;
-							top: -45rpx;
-							width: 100rpx;
-							height: 100rpx;
-							transform: rotate(-45deg);
-							background-color: red;
-							display: flex;
-							align-items: flex-end;
-							justify-content: center;
-							color: #fff;
+
+							.scroll-view-item-block {
+								width: 200rpx;
+								height: 180rpx;
+								background-color: #fff;
+								border-radius: 10rpx;
+								border: 1rpx solid #e5e5e5;
+								position: relative;
+								overflow: hidden;
+
+								.grid-text {
+									display: flex;
+									justify-content: center;
+								}
+
+								.grid-one {
+									font-size: 45rpx;
+									color: #000;
+									margin-top: 8rpx;
+								}
+
+								.grid-two {
+									font-size: 30rpx;
+									margin-top: 8rpx;
+								}
+
+								.item-sale {
+									position: absolute;
+									left: -45rpx;
+									top: -45rpx;
+									width: 100rpx;
+									height: 100rpx;
+									transform: rotate(-45deg);
+									background-color: red;
+									display: flex;
+									align-items: flex-end;
+									justify-content: center;
+									color: #fff;
+								}
+							}
 						}
 					}
-					}
-					}
-					
-					
+
+
 				}
+			}
+		}
+
+		.model-main {
+
+			// model框
+			.model-title {
+				font-size: 40rpx;
+				font-weight: bold;
+				height: 100rpx;
+				display: flex;
+				align-items: center;
+				padding-left: 30rpx;
+			}
+
+			.text-left {
+				// 内容左侧的公共样式
+				color: #d5d5d5;
+				font-size: 24rpx;
+			}
+
+			.text-right {
+				// 内容右侧的样式
+				font-size: 24rpx;
+			}
+
+			.model-one {
+				border-top: 1rpx solid #e5e5e5;
+				border-bottom: 1rpx solid #e5e5e5;
+				padding: 30rpx;
+
+				.model-one-top {
+					display: flex;
+				}
+
+				.model-one-bottom {
+					display: flex;
+					align-items: center;
+					flex-wrap: wrap;
+
+					>view {
+						width: 50%;
+						display: flex;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+				}
+			}
+
+			.model-two {
+				display: flex;
+				padding: 30rpx;
+				border-bottom: 1rpx solid #e5e5e5;
+
+				>view:first-child {
+					width: 150rpx;
+				}
+
+				>view:last-child {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
+
+			.mode-bottom {
+				height: 120rpx;
+				display: flex;
+				font-size: 30rpx;
+
+				.mode-bottom-left {
+					width: 150rpx;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+				}
+
+				.mode-bottom-right {
+					width: calc(100% - 150rpx);
+					height: 100%;
+					background-color: $color-red;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					color: #fff;
+
+					>view:first-child {
+						font-size: 40rpx;
+					}
+				}
+			}
+		}
+
+		.collection {
+			.collection-title {
+				height: 200rpx;
+				padding: 40rpx 30rpx;
+				display: flex;
+				justify-content: space-between;
+				border-bottom: 1rpx solid #e5e5e5;
+
+				.collection-title-left {
+					font-size: 30rpx;
+					color: #b5b5b5;
+
+					>view:first-child {
+						font-size: 50rpx;
+						color: #000;
+					}
+				}
+
+				.collection-title-right {}
+			}
+
+			.collection-rwo {
+				border-bottom: 1rpx solid #e5e5e5;
+				height: 120rpx;
+				padding: 0 30rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.collection-rwo-num {
+					width: 40rpx;
+					height: 40rpx;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					background-color: $color-red;
+					border-radius: 50%;
+					overflow: hidden;
+					color: #fff;
+					font-size: 24rpx;
+				}
+				>view:first-child{
+					display: flex;
+					align-items: center;
+					>view:nth-child(2) {
+						margin-left: 30rpx;
+						>view:nth-child(1){
+							font-size: 50rpx;
+						}
+						>view:last-child {
+						font-size: 30rpx;
+						color: #b5b5b5;
+					}
+					}
+				}
+				
 			}
 		}
 	}

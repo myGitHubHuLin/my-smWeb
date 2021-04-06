@@ -1,6 +1,27 @@
 <template>
-	<view class="content">
-		个人中心
+	<view class="user-content">
+		<view class="user-header">
+			<u-avatar :src="src"></u-avatar>
+		</view>
+		<view class="user-info">
+			<view class="user-info-white">
+				<view>王二小</view>
+				<view>185*****615668</view>
+			</view>
+		</view>
+		<view class="user-bottom">
+			<view class="user-bottom-row" v-for="(item, index) in list" :key="index" @click="tab(index)">
+				<view class="user-bottom-row-left">
+					<u-icon name="heart" size="40" v-show="index === 0"></u-icon>
+					<u-icon name="heart" size="40" v-show="index === 1"></u-icon>
+					<u-icon name="volume" size="40" v-show="index === 2"></u-icon>
+					<u-icon name="phone" size="40" v-show="index === 3"></u-icon>
+					<view>{{item.name}}</view>
+				</view>
+				<u-icon name="arrow-right" size="40"></u-icon>
+			</view>
+		</view>
+		
 	</view>
 </template>
 
@@ -8,42 +29,89 @@
 	export default {
 		data() {
 			return {
-				title: '个人中心'
+				src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+				list:[
+					{name: '我的收藏'},
+					{name: '我的房源'},
+					{name: '选房须知'},
+					{name: '致电售楼处'},
+				],
 			}
 		},
-		onLoad() {
-
-		},
 		methods: {
-
+			tab(i){
+				if(i === 0){ // 我的收藏
+					
+				}else if(i === 1){ // 我的房源
+					uni.navigateTo({
+					    url: '/pages/tabbar/user/my-housing'
+					});
+				}else if(i === 2){ // 选房须知
+					uni.navigateTo({
+					    url: '/pages/tabbar/user/agreement'
+					});
+				}else if(i === 3){ // 拨打电话
+					uni.makePhoneCall({
+					    phoneNumber: '114' //仅为示例
+					});
+				}
+			},
 		}
 	}
 </script>
 
-<style>
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
+<style lang="scss">
+	$color-red: red;
+	.user-content {
+		width: 100wh;
+		height: 100vh;
+		.user-header{
+			height: 300rpx;
+			width: 100%;
+			background-color: $color-red;
+			display: flex;
+			justify-content: center;
+			padding-top: 70rpx;
+		}
+		.user-info{
+			height: 200rpx;
+			width: 100%;
+			position: relative;
+			.user-info-white{
+				width: 100%;
+				height: 200rpx;
+				position: absolute;
+				border-radius: 70% 70% 0 0;
+				top: -100rpx;
+				left: 0;
+				background-color: #fff;
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				padding-top: 20rpx;
+				font-size: 32rpx;
+				color: #000;
+				>view:first-child{
+					margin-bottom: 10rpx;
+				}
+			}
+		}
+		.user-bottom{
+			padding: 0 30rpx;
+			.user-bottom-row{
+				height: 100rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				border-bottom: 1rpx solid #e5e5e5;
+				font-size: 30rpx;
+				.user-bottom-row-left{
+					display: flex;
+					>view{
+						margin-left: 30rpx;
+					}
+				}
+			}
+		}
 	}
 </style>

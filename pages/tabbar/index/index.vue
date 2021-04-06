@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view class="index-content">
 		<view class="u-page page-main">
 			<!-- 所有内容的容器 -->
 			<home v-if="current === 0"></home>
@@ -7,12 +7,12 @@
 			<user v-if="current === 2"></user>
 		</view>
 		<!-- 与包裹页面所有内容的元素u-page同级，且在它的下方 -->
-		<u-tabbar v-model="current" :list="list" :mid-button="true" active-color="red"></u-tabbar>
+		<u-tabbar v-model="current" :list="list" :mid-button="true" active-color="red" class="footer-tabbar"></u-tabbar>
 	</view>
 </template>
 
 <script>
-	import user from "./../user/user.vue"; // 我的
+	import user from "./../user/index.vue"; // 我的
 	import center from "./../center/index.vue"; // 选房
 	import home from "./../home/index.vue"; // 首页
 	export default {
@@ -58,12 +58,15 @@
 </script>
 
 <style lang="scss">
-	.content {
+	.index-content {
 		width: 100wh;
 		height: 100vh;
 		.page-main{
 			width: 100%;
 			height: 100%;
+		}
+		.footer-tabbar{
+			box-shadow: inset 0 0 10px #CCC;
 		}
 	}
 </style>
