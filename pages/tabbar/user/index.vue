@@ -21,12 +21,16 @@
 				<u-icon name="arrow-right" size="40"></u-icon>
 			</view>
 		</view>
-		
+		<footer></footer>
 	</view>
 </template>
 
 <script>
+	import footer from './../index/index.vue';
 	export default {
+		components:{
+			footer
+		},
 		data() {
 			return {
 				src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -61,7 +65,7 @@
 </script>
 
 <style lang="scss">
-	$color-red: red;
+	@import  "@/style/style.scss";
 	.user-content {
 		width: 100wh;
 		height: 100vh;
@@ -84,7 +88,7 @@
 				border-radius: 70% 70% 0 0;
 				top: -100rpx;
 				left: 0;
-				background-color: #fff;
+				background-color: $color-ff;
 				display: flex;
 				align-items: center;
 				flex-direction: column;
@@ -100,10 +104,8 @@
 			padding: 0 30rpx;
 			.user-bottom-row{
 				height: 100rpx;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				border-bottom: 1rpx solid #e5e5e5;
+				@include flex(center,space-between);
+				border-bottom: 1rpx solid $color-e5;
 				font-size: 30rpx;
 				.user-bottom-row-left{
 					display: flex;

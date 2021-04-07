@@ -80,7 +80,7 @@
 </script>
 
 <style lang="scss">
-	$color-red: red;
+	@import  "@/style/style.scss";
 
 	.my-housing {
 		width: 100wh;
@@ -112,7 +112,7 @@
 				width: calc(100% - 60rpx);
 				margin: 0 30rpx;
 				padding: 0 30rpx;
-				border: 4rpx solid #e5e5e5;
+				border: 4rpx solid $color-e5;
 				border-radius: 10rpx;
 				box-shadow: 0px 0px 2px #888888;
 				position: relative;
@@ -122,7 +122,7 @@
 					bottom: 110rpx;
 					width: 50rpx;
 					height: 50rpx;
-					background-color: #fff;
+					background-color: $color-ff;
 					border-radius: 0 50% 50% 0 ;
 					border-right: 1rpx solid #888888;
 				}
@@ -132,16 +132,15 @@
 					bottom: 110rpx;
 					width: 50rpx;
 					height: 50rpx;
-					background-color: #fff;
+					background-color: $color-ff;
 					border-radius: 50% 0 0 50%;
 					border-left: 1rpx solid #888888;
 				}
 				.my-housing-card-header {
 					height: 200rpx;
 					width: 100%;
-					border-bottom: 4rpx dashed red;
-					display: flex;
-					align-items: center;
+					border-bottom: 4rpx dashed $color-red;
+					@include flex();
 
 					.header-name {
 						font-size: 40rpx;
@@ -156,7 +155,7 @@
 					.header-row {
 						height: 65rpx;
 						font-size: 30rpx;
-						color: #d5d5d5;
+						color: $color-d5;
 					}
 				}
 
@@ -170,14 +169,12 @@
 		.my-housing-footer {
 			position: fixed;
 			bottom: 0;
-			background-color: #fff;
+			background-color: $color-ff;
 			height: 100rpx;
 			width: 100%;
 			font-size: 35rpx;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: #b5b5b5;
+			@include flex();
+			color: $color-b5;
 		}
 	}
 </style>

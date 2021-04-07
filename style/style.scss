@@ -1,0 +1,18 @@
+$color-red: red;
+$color-b5: #b5b5b5;
+$color-ff: #fff;
+$color-d5: #d5d5d5;
+$color-e5:#e5e5e5;
+// 模块居中 flex模式
+@mixin flex($align-items: center, $justify-content: center) {
+  display: flex;
+  display: -webkit-flex;
+  align-items: $align-items;
+  justify-content: $justify-content;
+}
+
+@mixin  textOverflow() { // 溢出隐藏
+  overflow:hidden; //超出的文本隐藏
+  text-overflow:ellipsis; //溢出用省略号显示
+  white-space:nowrap; //溢出不换行
+}

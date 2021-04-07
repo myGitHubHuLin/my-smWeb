@@ -55,12 +55,16 @@
 				</view>
 			</view>
 		</view>
-
+<footer></footer>
 	</view>
 </template>
 
 <script>
+	import footer from './../index/index.vue';
 	export default {
+		components:{
+			footer
+		},
 		data() {
 			return {
 				src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -76,6 +80,7 @@
 </script>
 
 <style lang="scss">
+	@import  "@/style/style.scss";
 	.content {
 		width: 100wh;
 		height: 100vh;
@@ -93,7 +98,7 @@
 				left: 0;
 				background-color: rgba($color: #000000, $alpha: 0.6);
 				font-size: 30rpx;
-				color: #fff;
+				color: $color-ff;
 				display: flex;
 				align-items: center;
 				padding-left: 20rpx;
@@ -106,18 +111,16 @@
 					width: 80rpx;
 					height: 80rpx;
 					font-size: 50rpx;
-					background-color: red;
+					background-color: $color-red;
 					border-radius: 8rpx;
 					color: #000;
-					display: flex;
-					align-items: center;
-					justify-content: center;
+					@include flex();
 					font-weight: bold;
 				}
 
 				.home-one-content-size {
 					font-size: 24rpx;
-					color: red;
+					color: $color-red;
 					margin: 0 10rpx;
 				}
 			}
@@ -132,7 +135,7 @@
 		.home-two {
 			margin: 30rpx 0rpx;
 			height: 100rpx;
-			border-bottom: 4rpx solid red;
+			border-bottom: 4rpx solid $color-red;
 			display: flex;
 			box-sizing: border-box;
 			position: relative;
@@ -146,9 +149,9 @@
 			.home-two-right {
 				width: 50%;
 				height: 100%;
-				background-color: red;
+				background-color: $color-red;
 				font-size: 30rpx;
-				color: #fff;
+				color: $color-ff;
 				display: flex;
 				justify-content: flex-end;
 				align-items: center;
@@ -162,7 +165,7 @@
 					width: 110rpx;
 					height: 60rpx;
 					transform: rotate(-65deg);
-					background-color: #fff;
+					background-color: $color-ff;
 				}
 
 				>view {
@@ -179,8 +182,8 @@
 			>view {
 				width: calc(50% - 10rpx);
 				height: 200rpx;
-				background-color: #e5e5e5;
-				color: #b5b5b5;
+				background-color: $color-e5;
+				color: $color-b5;
 				font-size: 26rpx;
 				padding-left: 10rpx;
 			}
@@ -219,10 +222,10 @@
 					min-width: 350rpx;
 					margin-right: 30rpx;
 					height: 450rpx;
-					border: 1rpx solid #e5e5e5;
+					border: 1rpx solid $color-e5;
 					border-radius: 8rpx;
 					font-size: 34rpx;
-					color: #b5b5b5;
+					color: $color-b5;
 					overflow: hidden;
 
 					>view {

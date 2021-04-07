@@ -28,24 +28,23 @@
 </script>
 
 <style lang="scss">
+	@import  "@/style/style.scss";
 	.agreement-main{
 		width: 100wh;
 		height: 100vh;
 		.agreement-header{
 			height: 150rpx;
 			width: 100%;
-			background-color: red;
+			background-color: $color-red;
 			font-size: 40rpx;
 			color: #fff;
-			display: flex;
-			align-items: center;
-			justify-content: center;
+			@include flex();
 		}
 		.agreement-body{
 			height: calc(100% - 450rpx);
 			width: calc(100% - 60rpx);
 			margin: 0 30rpx;
-			background-color: red;
+			background-color: $color-red;
 		}
 		.agreement-footer{
 			height: 300rpx;
