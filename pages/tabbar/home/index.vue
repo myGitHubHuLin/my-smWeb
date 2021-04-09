@@ -5,23 +5,31 @@
 			<view class="home-one-content">
 				<u-icon name="clock" size="30"></u-icon>
 				<view class="home-one-content-name">正式结束倒计时</view>
-				<view class="home-one-content-block">56</view>
+				<!-- <view class="home-one-content-block">56</view>
 				<view class="home-one-content-size">天</view>
 				<view class="home-one-content-block">08</view>
 				<view class="home-one-content-size">时</view>
 				<view class="home-one-content-block">47</view>
 				<view class="home-one-content-size">分</view>
 				<view class="home-one-content-block">57</view>
-				<view class="home-one-content-size">秒</view>
+				<view class="home-one-content-size">秒</view> -->
+				<u-count-down 
+				:timestamp="timestamp" 
+				separator="zh"
+				separator-color="red"
+				font-size="45"
+				bg-color="red"
+				color="#000"
+				height="80"></u-count-down>
 			</view>
 		</view>
 		<view class="home-content">
 			<view class="home-two">
-				<view class="home-two-left">上湖明珠</view>
+				<view class="home-two-left">{{data.Name}}</view>
 				<view class="home-two-right">
 					<view class="right-sj" />
 					房源总数：
-					<view>926</view>
+					<view>{{data.HousingTotal}}</view>
 					套
 				</view>
 			</view>
@@ -29,8 +37,8 @@
 				<view>本次开盘不设模拟环节</view>
 				<view>
 					<view>正式选房</view>
-					<view>开始时间:2021-05-31 00:00</view>
-					<view>结束时间:2021-05-31 00:00</view>
+					<view>开始时间:{{data.ChooseHouseStartTime}}</view>
+					<view>结束时间:{{data.ChooseHouseEndTime}}</view>
 				</view>
 			</view>
 			<view class="home-foure">
@@ -38,11 +46,12 @@
 				<view class="home-foure-body">
 					<scroll-view scroll-x="true" class="scroll-view_H"  scroll-left="120">
 					<view class="home-foure-content">
-						<view class="home-foure-row">
-							<u-image width="100%" height="300rpx" :src="src"></u-image>
-							<view>1栋1/8户型</view>
-							<view>3+1室两厅两卫</view>
+						<view class="home-foure-row" v-for="(item, index) in data.HouseTypes" :key="index">
+							<u-image width="100%" height="300rpx" :src="item.HouseTypePics"></u-image>
+							<view>{{item.HouseType}}</view>
+							<view>{{item.HouseTypeDesc}}</view>
 						</view>
+						<u-empty text="暂无数据" mode="data" v-if="!data.HouseTypes || data.HouseTypes.length < 1"></u-empty>
 					</view>
 				</scroll-view>
 				</view>
@@ -51,7 +60,8 @@
 			<view class="home-five">
 				<view class="home-five-title">项目介绍</view>
 				<view class="home-five-img">
-					<u-image width="100%" height="100%" :src="src"></u-image>
+					<u-parse :html="data.HousingIntroduce"></u-parse>
+					<u-empty text="暂无数据" mode="data" v-if="!data.HousingIntroduce"></u-empty>
 				</view>
 			</view>
 		</view>
@@ -61,6 +71,7 @@
 
 <script>
 	import footer from './../index/index.vue';
+	import moment from 'moment'
 	export default {
 		components:{
 			footer
@@ -68,13 +79,32 @@
 		data() {
 			return {
 				src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+				data: {}, // 房源信息
+				timestamp: 0, // 倒计时的时间戳
 			}
 		},
-		onLoad() {
-
+		onShow() {
+			this.getBackdropPic();
+			this.getOneHousingInfo();
 		},
 		methods: {
-
+			getBackdropPic() {
+				this.$u.api.getBackdropPic({}).then(res => {
+					this.src = res.Data;
+				})
+			},
+			getOneHousingInfo() {
+				this.$u.api.getOneHousingInfo({}).then(res => {
+					this.data = res.Data[0];
+					if(res.Data[0].ChooseHouseEndTime) { // 倒计时
+						let time = +moment(res.Data[0].ChooseHouseEndTime).format('X');
+						let nowTime = +moment().format('X');
+						let lastTime = (time - nowTime) > 0 ? (time - nowTime) : 0;
+						this.timestamp = lastTime;
+						console.log(lastTime)
+					}
+				})
+			},
 		}
 	}
 </script>
@@ -160,7 +190,7 @@
 
 				.right-sj {
 					position: absolute;
-					top: 8rpx;
+					top: 9rpx;
 					left: -53rpx;
 					width: 110rpx;
 					height: 60rpx;
@@ -181,10 +211,10 @@
 
 			>view {
 				width: calc(50% - 10rpx);
-				height: 200rpx;
+				height: 150rpx;
 				background-color: $color-e5;
 				color: $color-b5;
-				font-size: 26rpx;
+				font-size: 22rpx;
 				padding-left: 10rpx;
 			}
 
@@ -194,7 +224,7 @@
 
 			>view:last-child {
 				>view:nth-child(1) {
-					font-size: 40rpx;
+					font-size: 30rpx;
 					color: #000;
 					margin-top: 10rpx;
 					margin-bottom: 20rpx;

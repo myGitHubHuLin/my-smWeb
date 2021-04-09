@@ -60,6 +60,7 @@
 				if (page == pageUrl) {
 					return false;
 					}else{
+						this.$u.vuex('centerTab', 0); // 设置跳转到我的收藏--下表
 						uni.reLaunch({
 							url:pageUrl
 						})

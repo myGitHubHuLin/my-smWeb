@@ -21,6 +21,7 @@
 				<u-icon name="arrow-right" size="40"></u-icon>
 			</view>
 		</view>
+		<u-toast ref="uToast" />
 		<footer></footer>
 	</view>
 </template>
@@ -40,12 +41,24 @@
 					{name: '选房须知'},
 					{name: '致电售楼处'},
 				],
+				phone: '', // 致电售楼处
 			}
 		},
+		onShow() {
+			this.getContactPhone(); // 获取电话
+		},
 		methods: {
+			getContactPhone() {
+				this.$u.api.getContactPhone({}).then(res => {
+					this.phone = res.Data;
+				})
+			},
 			tab(i){
 				if(i === 0){ // 我的收藏
-					
+					this.$u.vuex('centerTab', 1); // 设置跳转到我的收藏--下表
+					uni.switchTab({
+						url: '/pages/tabbar/center/index'
+					});
 				}else if(i === 1){ // 我的房源
 					uni.navigateTo({
 					    url: '/pages/tabbar/user/my-housing'
@@ -55,9 +68,15 @@
 					    url: '/pages/tabbar/user/agreement'
 					});
 				}else if(i === 3){ // 拨打电话
-					uni.makePhoneCall({
-					    phoneNumber: '114' //仅为示例
-					});
+					if(!this.phone) {
+						return this.$refs.uToast.show({
+							title: '暂无电话',
+						})
+					} else {
+						uni.makePhoneCall({
+							phoneNumber: this.phone //仅为示例
+						});
+					}
 				}
 			},
 		}

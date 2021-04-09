@@ -17,13 +17,70 @@ const install = (Vue, vm) => {
 	// 获取用户订单列表
 	let getOrderList = (params = {}) => vm.$u.post('/Order/list', params);
 	
+	// 获取房源的查询条件
+	let getHouse = (params = {}) => vm.$u.post('/api/AppletsArchitecture/GetArchitectures', params);
+	
+	// 获取建筑明细列表
+	let getHouseList = (params = {}) => vm.$u.post('/api/AppletsArchitecture/GetArchitectureDetails', params);
+	
+	// 微信支付--确定订单
+	let creactOrder = (params = {}) => vm.$u.post('/api/ArchitectureOrder/Create', params);
+	
+	// 查看我的房源
+	let getMyHousing = (params = {}) => vm.$u.get('/api/ArchitectureOrder/GetMyHousing', params);
+	
+	// 获取手机号--售房
+	let getContactPhone = (params = {}) => vm.$u.get('/api/AppletsArchitecture/GetContactPhone', params);
+	
+	// 查询首页的房源
+	let getOneHousingInfo = (params = {}) => vm.$u.get('/api/AppletsArchitecture/GetOneHousingInfo', params);
+	
+	// 添加收藏
+	let creactCollect = (params = {}) => vm.$u.post('/api/CollectLogs/Create', params);
+	
+	// 获取我的收藏列表
+	let getCollect = (params = {}) => vm.$u.get('/api/CollectLogs/GetMyCollectLogs', params); 
+	
+	// 取消收藏--model框使用
+	let cannelCollect = (params = {}) => vm.$u.post('/api/CollectLogs/CannelCollect', params); 
+	
+	// 删除收藏--我的收藏列表使用
+	let delCollect = (params = {}) => vm.$u.post('/api/CollectLogs/Delete', params); 
+	
+	//购房须知
+	let getPurchaseAgreement = (params = {}) => vm.$u.get('/api/AppletsArchitecture/GetPurchaseAgreement', params); 
+	
+	// 绑定顾客信息
+	let bindCustomer = (params = {}) => vm.$u.post('/api/Open/BindCustomer', params);
+	
+	// 获取背景图片
+	let getBackdropPic = (params = {}) => vm.$u.get('/api/AppletsArchitecture/GetBackdropPic', params);
+	
+	// 微信登陆
+	let login = (params = {}) => vm.$u.get('/api/Open/Login', params);
+
+	
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
 	vm.$u.api = {
 		wxappLogin,
 		getUserInfo,
 		createOrder,
-		getOrderList
-	};
+		getOrderList,
+		getHouse,
+		getHouseList,
+		creactOrder,
+		getMyHousing,
+		getOneHousingInfo,
+		getContactPhone,
+		creactCollect,
+		getCollect,
+		delCollect,
+		getPurchaseAgreement,
+		bindCustomer,
+		getBackdropPic,
+		login,
+		cannelCollect
+		};
 }
 
 export default {

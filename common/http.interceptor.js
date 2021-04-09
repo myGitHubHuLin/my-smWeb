@@ -4,7 +4,7 @@
 const install = (Vue, vm) => {
 	// 此为自定义配置参数，具体参数见上方说明
 	Vue.prototype.$u.http.setConfig({
-		baseUrl: 'https://xxx.com/api', // 请求的本域名
+		baseUrl: 'http://192.168.1.12:8080', // 请求的本域名
 		method: 'GET',
 		// 设置为json，返回后会对数据进行一次JSON.parse()
 		dataType: 'json',
@@ -25,7 +25,7 @@ const install = (Vue, vm) => {
 		// 引用token
 		// 方式一，存放在vuex的token，假设使用了uView封装的vuex方式
 		// 见：https://uviewui.com/components/globalVariable.html
-		config.header.openid = vm.userInfo.openid ? vm.userInfo.openid : '';
+		// config.header.openid = vm.userInfo.openid ? vm.userInfo.openid : '';11111
 
 		// 方式二，如果没有使用uView封装的vuex方法，那么需要使用$store.state获取
 		// config.header.token = vm.$store.state.token;

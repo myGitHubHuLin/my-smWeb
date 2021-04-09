@@ -6,16 +6,16 @@
 					<view class="my-housing-card">
 						<view class="my-housing-card-header">
 							<u-icon name="photo"></u-icon>
-							<view class="header-name">{{item.name}}</view>
+							<view class="header-name">{{item.HousingName}}</view>
 						</view>
 						<view class="header-content">
-							<view class="header-row">选房时间：{{item.time}}</view>
-							<view class="header-row">认购人：{{item.userName}}</view>
-							<view class="header-row">电话号：{{item.phone}}</view>
-							<view class="header-row">房源单价：{{item.price}}</view>
-							<view class="header-row">房源面积：{{item.area}}</view>
+							<view class="header-row">选房时间：{{item.CreateTime}}</view>
+							<view class="header-row">认购人：{{item.CustomerName}}</view>
+							<view class="header-row">电话号：{{item.Phone}}</view>
+							<view class="header-row">房源单价：{{item.UnitPrice}}</view>
+							<view class="header-row">房源面积：{{item.ArchitectureSize}}</view>
 						</view>
-						<view class="bottom-tatol">总价：{{item.totalPrice}}元</view>
+						<view class="bottom-tatol">总价：{{item.TotalPrice}}元</view>
 						<view class="cli-left"></view>
 						<view class="cli-right"></view>
 					</view>
@@ -34,47 +34,19 @@
 	export default {
 		data() {
 			return {
-				list: [{
-						name: '一号楼-一单元-103',
-						time: '2010-04-06 18:36:37',
-						userName: '胡林',
-						phone: '13272613028',
-						price: '7022',
-						area: 169.05,
-						totalPrice: 111154.54,
-					},
-					{
-						name: '一号楼-一单元-103',
-						time: '2010-04-06 18:36:37',
-						userName: '胡林',
-						phone: '13272613028',
-						price: '7022',
-						area: 169.05,
-						totalPrice: 111154.54,
-					},
-					{
-						name: '一号楼-一单元-103',
-						time: '2010-04-06 18:36:37',
-						userName: '胡林',
-						phone: '13272613028',
-						price: '7022',
-						area: 169.05,
-						totalPrice: 111154.54,
-					},
-					{
-						name: '一号楼-一单元-103',
-						time: '2010-04-06 18:36:37',
-						userName: '胡林',
-						phone: '13272613028',
-						price: '7022',
-						area: 169.05,
-						totalPrice: 111154.54,
-					},
-				],
+				list: [],
 			}
 		},
+		onShow() {
+			this.getMyHousing();
+		},
 		methods: {
-
+			getMyHousing() {
+				this.$u.api.getMyHousing({}).then(res => {
+					this.list = res.Data;
+					console.log(res)
+				})
+			},
 		}
 	}
 </script>

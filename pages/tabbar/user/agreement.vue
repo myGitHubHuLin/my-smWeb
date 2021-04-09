@@ -1,6 +1,6 @@
 <template>
 	<view class="agreement-main">
-		<view class="agreement-header">*****-在线选房须知</view>
+		<view class="agreement-header">在线选房须知</view>
 		<view class="agreement-body">
 			<u-parse :html="content"></u-parse>
 		</view>
@@ -17,10 +17,18 @@
 				content:'', // 富文本内容
 			}
 		},
+		onShow() {
+			this.getPurchaseAgreement(); // 获取购房须知
+		},
 		methods: {
 			back(){ // 返回
 				uni.navigateBack({
 					url: '/pages/tabbar/user/index',
+				})
+			},
+			getPurchaseAgreement() {
+				this.$u.api.getPurchaseAgreement({}).then(res => {
+					this.content = res.Data;
 				})
 			},
 		}
@@ -35,16 +43,14 @@
 		.agreement-header{
 			height: 150rpx;
 			width: 100%;
-			background-color: $color-red;
 			font-size: 40rpx;
-			color: #fff;
+			color: #000;
 			@include flex();
 		}
 		.agreement-body{
 			height: calc(100% - 450rpx);
 			width: calc(100% - 60rpx);
 			margin: 0 30rpx;
-			background-color: $color-red;
 		}
 		.agreement-footer{
 			height: 300rpx;
