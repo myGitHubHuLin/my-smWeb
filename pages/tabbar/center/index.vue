@@ -30,6 +30,7 @@
 				</view>
 			</view>
 			<view class="scroll-contianr">
+				<u-empty text="暂未录入数据,请先去管理后台录入数据" mode="list" v-if="!roomData || roomData.length < 1"></u-empty>
 				<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y"
 					v-for="(value,key,index) in roomData" :key="index">
 					<view class="scroll-view-item uni-bg-red">
@@ -263,6 +264,10 @@
 			await this.loadHouseQuery(); // 查询条件的查询
 			await this.getHouseList(); // 列表的查询
 		},
+		onTabItemTap : function(e) { // 监听tabbar点击事件，重置index
+			this.$u.vuex('centerTab',0); 
+		    // e的返回格式为json对象： {"index":0,"text":"首页","pagePath":"pages/index/index"}
+		},
 		methods: {
 			loadHouseQuery() { // 查询条件的查询
 				return this.$u.api.getHouse({HousingId: 1}).then(res =>{
@@ -272,6 +277,9 @@
 			},
 			getHouseList() {
 				const {query} = this;
+				if (!query.Id) {
+					return this.roomData = [];
+				}
 				return this.$u.api.getHouseList(query).then(res =>{
 					this.roomData = res.Data;
 				})
@@ -306,16 +314,20 @@
 				this.query.Id = this.list[this.current]?.Architectures[i]?.Id
 				this.getHouseList();
 			},
-			chooseItem(val) { // 点击块--选择
+			async chooseItem(val) { // 点击块--选择
 				const value = val.currentTarget.dataset.val;
 				if (value.SellStatus !== 2) { // 没有销售--打开model
-					this.show = true;
-					this.modelData = value;
-					console.log(value)
-					let time = +moment(value.ChooseHouseEndTime).format('X');
-					let nowTime = +moment().format('X');
-					let lastTime = (time - nowTime) > 0 ? (time - nowTime) : 0;
-					this.timestamp = lastTime || 0;
+					if (this.$u.func.getGlobalUserInfoShow()) { // 没有信息打开model
+						await this.$u.func.wxLogin();
+					} else{
+						this.show = true;
+						this.modelData = value;
+						console.log(value)
+						let time = +moment(value.ChooseHouseEndTime).format('X');
+						let nowTime = +moment().format('X');
+						let lastTime = (time - nowTime) > 0 ? (time - nowTime) : 0;
+						this.timestamp = lastTime || 0;
+					}
 				}
 			},
 			creactOrder() { // 微信支付确定订单
@@ -329,10 +341,47 @@
 					 return false;
 				 }
 				 this.$u.api.creactOrder({ArchitectureId: modelData.Id}).then(res => {
-					 this.settleMode=false;
-					 this.show = false;
-					 this.succeseMode=true;
+					 if (res.Data.PrepayId) {
+						 this.openWXpay(res.Data)
+					 } else {
+						 uni.showToast({
+						   title: '未配置支付配置，请先配置微信支付配置！',
+						   icon: 'none',
+						   duration: 2000,
+						 })
+					 }
+					 // this.settleMode=false;
+					 // this.show = false;
+					 // this.succeseMode=true;
 				 })
+			},
+			openWXpay (payConfig) { // 微信支付
+				let that = this;
+				  uni.requestPayment({
+				      timeStamp: payConfig.TimeStamp,
+				      nonceStr: payConfig.NonceStr,
+				      package: payConfig.Package,
+				      signType: 'MD5',
+				      paySign: payConfig.PaySign,
+				      success: function (res) {
+				        uni.showToast({
+				          title: '支付成功！',
+				          icon: 'success',
+				          duration: 2000,
+				        })
+				        setTimeout(()=>{
+				            that.settleMode=false;
+				            that.show = false;
+				            that.succeseMode=true;
+				        },2000)
+				      },
+				      fail: function (res) {
+				        uni.showToast({
+				          title: '支付失败',
+				          icon: 'none',
+				        })
+				      }
+				    })
 			},
 			lookMyHouse() { // 查看我的房源
 				this.succeseMode = false;
@@ -790,7 +839,7 @@
 		}
 		.succese-mode-main{ // 结算成功之后的model
 			width: 600rpx;
-			height: 800rpx;
+			height: 400rpx;
 			padding: 40rpx;
 			.succese-mode-title{
 				font-size: 35rpx;

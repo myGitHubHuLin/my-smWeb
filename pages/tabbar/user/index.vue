@@ -5,8 +5,8 @@
 		</view>
 		<view class="user-info">
 			<view class="user-info-white">
-				<view>王二小</view>
-				<view>185*****615668</view>
+				<view>{{userInfo.Name || '请登录'}}</view>
+				<view>{{userInfo.Phone}}</view>
 			</view>
 		</view>
 		<view class="user-bottom">
@@ -28,9 +28,13 @@
 
 <script>
 	import footer from './../index/index.vue';
+	import {mapState} from 'vuex'
 	export default {
 		components:{
 			footer
+		},
+		computed:{
+			...mapState(['userInfo']) //  // 头部选择的下表:全部房源、我的收藏
 		},
 		data() {
 			return {
@@ -53,16 +57,24 @@
 					this.phone = res.Data;
 				})
 			},
-			tab(i){
+			async tab(i){
 				if(i === 0){ // 我的收藏
-					this.$u.vuex('centerTab', 1); // 设置跳转到我的收藏--下表
-					uni.switchTab({
-						url: '/pages/tabbar/center/index'
-					});
+					if(this.$u.func.getGlobalUserInfoShow()) { // 没有值
+						return this.$u.func.wxLogin();
+					} else {
+						this.$u.vuex('centerTab', 1); // 设置跳转到我的收藏--下表
+						uni.switchTab({
+							url: '/pages/tabbar/center/index'
+						});
+					}
 				}else if(i === 1){ // 我的房源
-					uni.navigateTo({
-					    url: '/pages/tabbar/user/my-housing'
-					});
+					if(this.$u.func.getGlobalUserInfoShow()) { // 没有值
+						return this.$u.func.wxLogin(true, false);
+					} else {
+						uni.navigateTo({
+							url: '/pages/tabbar/user/my-housing'
+						});
+					}
 				}else if(i === 2){ // 选房须知
 					uni.navigateTo({
 					    url: '/pages/tabbar/user/agreement'

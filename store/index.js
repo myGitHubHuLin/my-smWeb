@@ -32,11 +32,12 @@ const store = new Vuex.Store({
 	state: {
 		// 如果上面从本地获取的lifeData对象下有对应的属性，就赋值给state中对应的变量
 		// 加上vuex_前缀，是防止变量名冲突，也让人一目了然
-		userImfo: {}, // 用户信息
+		userInfo: {}, // 用户信息
 		token: '', // 用户token
 		// 如果vuex_version无需保存到本地永久存储，无需lifeData.vuex_version方式
 		vuex_version: '1.0.1',
 		centerTab: 0, // 选房中心的默认tab 0：房源   1：收藏
+		CustomeGrantId: 0,
 		// appId: '', // 上线配置写死
 		// mchId: '', // 商户号id
 	},

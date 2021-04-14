@@ -84,6 +84,7 @@
 			}
 		},
 		onShow() {
+			console.log(this.$u.func)
 			this.getBackdropPic();
 			this.getOneHousingInfo();
 		},

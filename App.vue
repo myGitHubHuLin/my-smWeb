@@ -1,22 +1,18 @@
 <script>
+	import  wxLogin from './utils/common.js'; // this.$u.share
 	export default {
 		onLaunch: function() {
-			
+			console.log('App onLaunch')
 		},
-		onShow: function() {
-			console.log('App Show')
+		onShow: async function() { // 初始化获取token以及用户信息
+			let user = {};
+			await this.$u.func.wxLogin(true, false);
+			// this.$u.vuex('token', user.Token);
+			// this.$u.vuex('userInfo', {Name: user.Name, Phone: user.Phone});
 		},
 		onHide: function() {
 			console.log('App Hide')
 		},
-		onTabItemTap : function(e) {
-		    console.log(e);
-		    // e的返回格式为json对象： {"index":0,"text":"首页","pagePath":"pages/index/index"}
-		},
-		onNavigationBarButtonTap : function (e) {
-		    console.log(e);
-		    // e的返回格式为json对象：{"text":"测试","index":0}
-		}
 	}
 </script>
 

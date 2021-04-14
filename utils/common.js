@@ -57,13 +57,52 @@ const install = (Vue, vm) => {
 		}
 	}
 	
-	
+	const wxLogin = (isSetVal = true, isJump = true) => { // isSetVal:值是否设置到vuex里面   isJump：是否跳转登录
+	console.log(isSetVal, isJump,1)
+		return new Promise((resole, reject) => {
+			wx.login({
+					success: (res) => {
+						if (res.code) {
+							 login(res.code, isSetVal, isJump).then(d => resole(d));
+						} else {
+							console.log('登录失败！' + res.errMsg);
+						}
+					},
+					fail(res){
+						console.log(res)
+					}
+				});
+		})
+	}
+	const login = (code, isSetVal, isJump) => {
+		return	new Promise((resole, reject) => {
+			vm.$u.api.login({code}).then(res => {
+				const data = res.Data; // CustomeGrantId
+				if(isSetVal) {
+					vm.$u.vuex('CustomeGrantId', data.CustomeGrantId);
+					vm.$u.vuex('token', data.Token || '');
+					vm.$u.vuex('userInfo', {Name: data.Name  || '', Phone: data.Phone  || ''});
+				}
+				if(isJump) {
+					vm.$u.route({url: 'pages/user/login/index', params: {CustomeGrantId: data.CustomeGrantId}})
+				}
+				resole(data);
+			})
+		})
+	}
+	const getGlobalUserInfoShow = () => { // 检查用户是否登录
+		const data = vm.$store.state.userInfo;
+		return !data || !data.Phone;
+	}
 	
 	Vue.prototype.$u.func = {
 		checkLogin,
 		checkH5,
 		paramsToObj,
-		refreshPage
+		refreshPage,
+		wxLogin,
+		login,
+		getGlobalUserInfoShow
 	}
 	// 将各个定义的方法，统一放进对象挂载到vm.$u.share(因为vm就是this，也即this.$u.share)下
 }

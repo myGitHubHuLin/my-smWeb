@@ -19,7 +19,13 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
+		computed:{
+			...mapState(['CustomeGrantId']) 
+		},
 		data() {
 			return {
 				src: '',
@@ -50,6 +56,7 @@
 		},
 		onShow() {
 			this.getBackdropPic(); // 获取背景图
+			// console.log(this.$u, getCurrentPages())
 		},
 		onReady() { // 初始化规则
 			this.$refs.uForm.setRules(this.rules);
@@ -60,18 +67,23 @@
 					if (valid) {
 						this.bindCustomer();
 					} else {
-						uni.switchTab({
-							url: '/pages/tabbar/home/index'
-						});
+						// uni.switchTab({
+						// 	url: '/pages/tabbar/home/index'
+						// });
+						// this.$u.route({type: 'navigateBack'});
 						console.log('验证失败');
 					}
 				})
 			},
 			bindCustomer() { // 提交顾客信息
-				this.$u.api.bindCustomer(this.form).then(res => {
-					uni.switchTab({
-						url: '/pages/tabbar/center/index'
-					});
+				this.$u.api.bindCustomer({CustomeGrantId: this.CustomeGrantId, ...this.form}).then(res => {
+					const data = res.Data;
+					this.$u.vuex('token', data.Token);
+					this.$u.vuex('userInfo', {Name: data.Name, Phone: data.Phone});
+					// uni.switchTab({
+					// 	url: '/pages/tabbar/center/index'
+					// });
+					this.$u.route({type: 'navigateBack'});
 				})
 			},
 			getBackdropPic() {

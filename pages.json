@@ -4,14 +4,6 @@
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-		    "path" : "pages/user/login/index",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "登录"
-		    }
-		    
-		},
-		{
 			"path": "pages/tabbar/home/index",
 			"style": {
 				"navigationBarTitleText": "首页"
@@ -38,11 +30,19 @@
 			"style": {
 				"navigationBarTitleText": "线上选房须知"
 			}
+		},
+		{
+		    "path" : "pages/user/login/index",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "登录"
+		    }
+		    
 		}
 	    ,{
             "path" : "pages/user/login/login",
             "style" : {
-                "navigationBarTitleText": "登录",
+                "navigationBarTitleText": "其他的登录",
                 "enablePullDownRefresh": false,
 				"navigationStyle":"custom"
             }
@@ -68,8 +68,8 @@
 			},
 			{
 				"pagePath": "pages/tabbar/center/index",
-				"iconPath": "static/tabbar/user.png",
-				"selectedIconPath": "static/tabbar/user.png",
+				"iconPath": "static/tabbar/center.png",
+				"selectedIconPath": "static/tabbar/center-active.png",
 				"text": "选房"
 			},
 			{
