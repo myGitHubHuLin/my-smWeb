@@ -3,6 +3,7 @@
 		<view class="agreement-header">在线选房须知</view>
 		<view class="agreement-body">
 			<u-parse :html="content"></u-parse>
+			<u-empty text="未录入须知,请联系管理人员录入" mode="list" v-if="!content"></u-empty>
 		</view>
 		<view class="agreement-footer">
 			<u-button type="error" class="agreement-footer-button" @click="back">返回</u-button>

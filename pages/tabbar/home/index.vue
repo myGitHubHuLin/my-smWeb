@@ -29,7 +29,7 @@
 				<view class="home-two-right">
 					<view class="right-sj" />
 					房源总数：
-					<view>{{data.HousingTotal}}</view>
+					<view>{{data.HousingTotal || 0}}</view>
 					套
 				</view>
 			</view>
@@ -37,8 +37,8 @@
 				<view>本次开盘不设模拟环节</view>
 				<view>
 					<view>正式选房</view>
-					<view>开始时间:{{data.ChooseHouseStartTime}}</view>
-					<view>结束时间:{{data.ChooseHouseEndTime}}</view>
+					<view>开始时间:{{data.ChooseHouseStartTime || '暂无'}}</view>
+					<view>结束时间:{{data.ChooseHouseEndTime || '暂无'}}</view>
 				</view>
 			</view>
 			<view class="home-foure">

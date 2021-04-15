@@ -5,7 +5,7 @@
 		</view>
 		<view class="user-info">
 			<view class="user-info-white">
-				<view>{{userInfo.Name || '请登录'}}</view>
+				<view @click="login">{{userInfo.Name || '请登录'}}</view>
 				<view>{{userInfo.Phone}}</view>
 			</view>
 		</view>
@@ -57,6 +57,9 @@
 					this.phone = res.Data;
 				})
 			},
+			login() { // 未登录--跳转登录
+				this.$u.func.wxLogin();
+			},
 			async tab(i){
 				if(i === 0){ // 我的收藏
 					if(this.$u.func.getGlobalUserInfoShow()) { // 没有值
@@ -69,7 +72,7 @@
 					}
 				}else if(i === 1){ // 我的房源
 					if(this.$u.func.getGlobalUserInfoShow()) { // 没有值
-						return this.$u.func.wxLogin(true, false);
+						return this.$u.func.wxLogin();
 					} else {
 						uni.navigateTo({
 							url: '/pages/tabbar/user/my-housing'

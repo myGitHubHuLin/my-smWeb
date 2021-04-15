@@ -248,8 +248,7 @@
 					SellStatus: 0, // 1：未选折   0：全部--默认 是否查看未选
 				},
 				chooseUnit: 0, // 当前选中的index
-				roomData: { // 房间具体的信息
-				},
+				roomData: [], // 房间具体的信息
 				scrollTop: 0,
 				show: false, // 下边的model
 				modelData: {}, // 打开model的数据
@@ -302,7 +301,9 @@
 					await this.loadHouseQuery(); // 查询条件的查询
 					await this.getHouseList(); // 列表的查询
 				} else { // 我的收藏
-					this.getCollect();
+					if (!this.$u.func.getGlobalUserInfoShow()) { // 登录成功之后才能打开model
+						this.getCollect();
+					}
 				}
 			},
 			rightChoose(val) { // 是否查看未选择
