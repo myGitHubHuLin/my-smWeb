@@ -342,7 +342,7 @@
 					 return false;
 				 }
 				 this.$u.api.creactOrder({ArchitectureId: modelData.Id}).then(res => {
-					 if (res.Data.PrepayId) {
+					 if (res.Data.ArchitectureOrderId) {
 						 this.openWXpay(res.Data)
 					 } else {
 						 uni.showToast({
@@ -359,10 +359,12 @@
 			openWXpay (payConfig) { // 微信支付
 				let that = this;
 				  uni.requestPayment({
+					  provider: "wxpay",
+					  orderInfo: payConfig.ArchitectureOrderId,
 				      timeStamp: payConfig.TimeStamp,
 				      nonceStr: payConfig.NonceStr,
 				      package: payConfig.Package,
-				      signType: 'MD5',
+				      signType: payConfig.SignType,// 'MD5',
 				      paySign: payConfig.PaySign,
 				      success: function (res) {
 				        uni.showToast({
@@ -377,6 +379,7 @@
 				        },2000)
 				      },
 				      fail: function (res) {
+						  console.log(res)
 				        uni.showToast({
 				          title: '支付失败',
 				          icon: 'none',
