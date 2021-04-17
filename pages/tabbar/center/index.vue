@@ -189,8 +189,8 @@
 				</view>
 			</view>
 			<view class="settle-mode-bottom">
-				<view class="settle-mode-bottom-user">购买人：胡林</view>
-				<view class="settle-mode-bottom-user">手机号：132726***132</view>
+				<view class="settle-mode-bottom-user">购买人：{{userInfo.Name}}</view>
+				<view class="settle-mode-bottom-user">手机号：{{userInfo.Phone}}</view>
 				<view class="settle-mode-bottom-rules">
 					<u-checkbox-group active-color="red">
 						<u-checkbox v-model="checked" shape="circle">我已阅读并同意《在线选房须知》</u-checkbox>
@@ -234,7 +234,7 @@
 			footer
 		},
 		computed:{
-			...mapState(['centerTab']) //  // 头部选择的下表:全部房源、我的收藏
+			...mapState(['centerTab', 'userInfo']) //  // 头部选择的下表:全部房源、我的收藏
 		},
 		data() {
 			return {

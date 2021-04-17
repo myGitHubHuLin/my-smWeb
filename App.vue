@@ -5,6 +5,7 @@
 			console.log('App onLaunch')
 		},
 		onShow: async function() { // 初始化获取token以及用户信息
+		console.log('App onShow')
 			let user = {};
 			await this.$u.func.wxLogin(true, false);
 			// this.$u.vuex('token', user.Token);
