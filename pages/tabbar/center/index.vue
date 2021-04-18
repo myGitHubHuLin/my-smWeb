@@ -370,13 +370,13 @@
 				        uni.showToast({
 				          title: '支付成功！',
 				          icon: 'success',
-				          duration: 2000,
+				          duration: 1000,
 				        })
 				        setTimeout(()=>{
 				            that.settleMode=false;
 				            that.show = false;
 				            that.succeseMode=true;
-				        },2000)
+				        },500)
 				      },
 				      fail: function (res) {
 						  console.log(res)
